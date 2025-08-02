@@ -138,12 +138,14 @@ async def extract_graph_data(text):
 
 def visualize_graph(graph_documents, output_file):
     from pyvis.network import Network
+    import random
 
+    # Initialize Pyvis Network
     net = Network(
         height="700px",
         width="100%",
-        bgcolor="#0e1117",             # dark mode background
-        font_color="#f5f5f5",          # light font
+        bgcolor="#0e1117",         # Dark background
+        font_color="#f5f5f5",       # Light font
         directed=True,
         cdn_resources="remote"
     )
@@ -160,16 +162,28 @@ def visualize_graph(graph_documents, output_file):
             valid_edges.append(rel)
             valid_node_ids.update([rel.source.id, rel.target.id])
 
+    # Assign unique color per node type
+    color_map = {}
+
+    def get_color_for_type(type_):
+        if type_ not in color_map:
+            color_map[type_] = "#%06x" % random.randint(0x111111, 0xFFFFFF)
+        return color_map[type_]
+
+    # Add nodes to the network
     for node_id in valid_node_ids:
         node = node_dict[node_id]
         try:
+            label = node.properties.get("name", node.id)
+            title = f"ID: {node.id}<br>Type: {node.type}<br>Properties: {node.properties}"
+
             net.add_node(
                 node.id,
-                label=node.id,
-                title=f"Type: {node.type}",
+                label=label,
+                title=title,
                 group=node.type,
                 color={
-                    "background": "#1f77b4",
+                    "background": get_color_for_type(node.type),
                     "border": "#f39c12",
                     "highlight": {
                         "background": "#f39c12",
@@ -178,9 +192,10 @@ def visualize_graph(graph_documents, output_file):
                 },
                 font={"size": 16}
             )
-        except:
+        except Exception:
             continue
 
+    # Add edges to the network
     for rel in valid_edges:
         try:
             net.add_edge(
@@ -188,13 +203,13 @@ def visualize_graph(graph_documents, output_file):
                 rel.target.id,
                 label=rel.type.lower(),
                 arrows="to",
-                font={"size": 12, "color": "#f5f5f5"},
+                font={"size": 15, "color": "#ff0000"},
                 color="gray"
             )
-        except:
+        except Exception:
             continue
 
-    # Stylish physics options for smoother interaction
+    # Set visual options
     net.set_options("""
     const options = {
       "layout": {
@@ -234,9 +249,9 @@ def visualize_graph(graph_documents, output_file):
     }
     """)
 
-    # net.save_graph(output_file)
-
+    # Save the output
     net.save_graph(output_file)
+    # print(f"✅ Graph successfully saved to {output_file}")
 @app.post("/outline/")
 async def generate_outline(data: TextInput):
 #     import google.generativeai as genai
@@ -415,4 +430,5 @@ if __name__ != "__main__":
 
     # Granite for keyword extraction
     
+
     
