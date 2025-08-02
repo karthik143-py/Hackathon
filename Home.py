@@ -1,11 +1,8 @@
 # home.py
 
 import streamlit as st
-import threading
-import uvicorn
-# from fastapi import FastAPI
 
-import requests
+
 
 # === Launch FastAPI backend in background ===
 
@@ -149,19 +146,24 @@ st.markdown(
 #     uvicorn.run(fastapi_app, host="127.0.0.1", port=8000)
 
 # threading.Thread(target=run_fastapi, daemon=True).start()
-# if "api_started" not in st.session_state:
-#     def start_api():
-#         uvicorn.run("main:app", host="127.0.0.1", port=8000, log_level="warning")
+import threading
+import uvicorn
+import os
 
-#     threading.Thread(target=start_api, daemon=True).start()
-#     st.session_state.api_started = True
-#     import requests
-# try:
-#     res = requests.get("http://127.0.0.1:8000/")
-#     if res.status_code == 404:
-#         st.success("✅ FastAPI backend is running!")
-# except:
-#     st.warning("⚠️ Backend not responding.")
+# # === Optional: avoid multiple launches on rerun ===
+if "api_started" not in st.session_state:
+    def start_api():
+        uvicorn.run("main:app", host="127.0.0.1", port=8000, log_level="warning")
+
+    threading.Thread(target=start_api, daemon=True).start()
+    st.session_state.api_started = True
+    import requests
+try:
+    res = requests.get("http://127.0.0.1:8000/")
+    if res.status_code == 404:
+        st.success("✅ FastAPI backend is running!")
+except:
+    st.warning("⚠️ Backend not responding.")
 
 
 
