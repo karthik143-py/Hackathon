@@ -116,7 +116,7 @@ with cols3[0]:
     <div class="feature-card">
         <h3>🧭 Smart Outline</h3>
         <p>It gives you the outline of your document.</p>
-        <a href="/get_Outline" target="_self">👉 Generate Graph</a>
+        <a href="/get_Outline" target="_self">👉 Brief your Doc</a>
     </div>
     """, unsafe_allow_html=True)
 
@@ -125,7 +125,7 @@ with cols3[1]:
     <div class="feature-card">
         <h3>📅 Personalized Study Scheduler</h3>
         <p>Gives you the best study plan to work with your document.</p>
-        <a href="/Schedular" target="_self">👉 Semantic Search</a>
+        <a href="/Schedular" target="_self">👉 Get youe study plan</a>
     </div>
     """, unsafe_allow_html=True)
 
@@ -134,7 +134,7 @@ with cols3[2]:
     <div class="feature-card">
         <h3>🧪 Interactive Q&A Trainer</h3>
         <p>Train your self with multipule choice based question answerings.</p>
-        <a href="/Trainer" target="_self">👉 Hear Content</a>
+        <a href="/Trainer" target="_self">👉 Take a test</a>
     </div>
     """, unsafe_allow_html=True)
 
@@ -162,6 +162,7 @@ st.markdown(
 #         st.success("✅ FastAPI backend is running!")
 # except:
 #     st.warning("⚠️ Backend not responding.")
+
 
 
 
