@@ -33,7 +33,7 @@ if extracted_text:
 
     # === User Inputs ===
     mode = st.radio("What do you want to learn?", ["pdf", "concepts"], horizontal=True)
-    iq = st.slider("📊 Rate your IQ (approx)", 20, 160, 100)
+    iq = st.slider("📊 Efficiency", 10, 100, 50)
     hours_per_day = st.slider("⏱️ How many hours can you study daily?", 1.0, 12.0, 2.0)
     end_date = st.date_input("📆 Select your end date:", min_value=date.today())
 
@@ -80,3 +80,4 @@ if extracted_text:
                 st.error(f"🚫 Failed to fetch study plan: {e}")
 else:
     st.info("📂 Upload a file or paste text to begin.")
+
